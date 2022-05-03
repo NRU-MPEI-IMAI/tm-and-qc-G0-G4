@@ -1,0 +1,55 @@
+name: binary increment
+source code: |-
+  input: '11*11='
+  blank: ' '
+  start state: x_first
+  table:
+
+    x_first:
+      1: {write: x, R: search_second}
+      '*': {L: recover_first}
+      x: {write: 1, L: recover_first}
+    
+    search_second:
+      1: R
+      '*': {R: x_second}
+
+    x_second:
+      1: {write: x, R: write}
+      x: R
+      =: {L: recover_ones}
+    
+    write:
+      [1, x, '*', =]: R
+      ' ': {write: 1, R: return_to_second}
+    
+    return_to_second:
+      [1, '*', =, ' ']: L
+      x: {R: x_second}
+    
+    recover_ones:
+      '*': {L: search_next_one}
+      x: {write: 1, L: recover_ones}
+    
+    search_next_one:
+      1: L
+      x: {R: x_first}
+    
+    recover_first:
+      x: {write: 1, L: recover_first }
+      ' ': {R: done}
+      
+    done:
+    
+    
+    
+positions:
+  x_first: {x: 218.92, y: 262.48}
+  search_second: {x: 346.64, y: 305.89, fixed: false}
+  x_second: {x: 430.06, y: 182.67}
+  write: {x: 602.5, y: 268.92}
+  return_to_second: {x: 584.15, y: 123.54}
+  recover_ones: {x: 460.59, y: 338.99}
+  search_next_one: {x: 529.88, y: 398.85}
+  recover_first: {x: 352.1, y: 111.84}
+  done: {x: 453.96, y: 20, fixed: false}

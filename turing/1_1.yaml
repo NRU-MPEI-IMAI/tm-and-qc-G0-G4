@@ -1,0 +1,23 @@
+name: binary increment
+source code: |-
+  input: '11+1'
+  blank: ' '
+  start state: search_plus
+  table:
+    search_plus:
+      1: R
+      +: {write: 1, R: write_plus}
+      
+    write_plus:
+      1: {write: +, L: search_plus}
+      ' ': {L: del_last}
+    
+    del_last:
+      1: {write: ' ', L: done}
+      
+    done:
+positions:
+  search_plus: {x: 272.17, y: 315.5}
+  write_plus: {x: 331.13, y: 187.39, fixed: false}
+  del_last: {x: 472.14, y: 174.56, fixed: false}
+  done: {x: 480.62, y: 316.39, fixed: false}
