@@ -1,0 +1,45 @@
+name: binary increment
+source code: |-
+  input: '001122'
+  blank: ' '
+  start state: x_0
+  table:
+
+    x_0:
+      0: {write: x, R: x_1}
+      [1, 2, x, ' ']: {R: reject}
+
+    x_1:
+      [0, x]: R
+      1: {write: x, R: x_2}
+      [2, ' ']: {R: reject}
+      
+    x_2:
+      [1, x]: R
+      2: {write: x, L: return}
+      [0, ' ']: {R: reject}
+      
+    return:
+      ' ': {R: check}
+      [1, 2, x]: L
+      0: {write: x, R: x_1}
+      
+    check:
+      x: R
+      [0, 1, 2]: {R: reject}
+      ' ': {L: accept}
+      
+    reject:
+    
+    accept:
+    
+    
+    
+positions:
+  x_0: {x: 551.27, y: 248.61, fixed: false}
+  x_1: {x: 420.5, y: 233.24, fixed: false}
+  x_2: {x: 325.36, y: 338.39, fixed: false}
+  return: {x: 294.09, y: 199.24}
+  check: {x: 696.81, y: 319.21}
+  reject: {x: 471.62, y: 374.42}
+  accept: {x: 655.96, y: 398.87}

@@ -1,0 +1,73 @@
+name: binary increment
+source code: |-
+  input: '([{[]}])[({{}})]'
+  blank: ' '
+  start state: start
+  table:
+
+    start:
+      'x': R
+      '(': {R: round}
+      '[': {R: square}
+      '{': {R: curly}
+      [')', ']', '}']: {R: reject}
+      
+    search_left:
+      [x, ')', ']', '}']: L
+      '(': {R: round}
+      '[': {R: square}
+      '{': {R: curly}
+      ' ': {R: search_right}
+      
+    search_right:
+      x: R
+      '(': {R: round}
+      '[': {R: square}
+      '{': {R: curly}
+      ' ': {L: accept}
+      [')', ']', '}']: {L: reject}
+      
+    round:
+      x: R
+      ')': {write: x, L: erase}
+      '(': {R: round}
+      '[': {R: square}
+      '{': {R: curly}
+      [']', '}', ' ']: {L: reject}
+    
+    square:
+      x: R
+      ']': {write: x, L: erase}
+      '(': {R: round}
+      '[': {R: square}
+      '{': {R: curly}
+      [')', '}', ' ']: {L: reject}
+    
+    curly:
+      x: R
+      '}': {write: x, L: erase}
+      '(': {R: round}
+      '[': {R: square}
+      '{': {R: curly}
+      [']', ')', ' ']: {L: reject}
+      
+    erase:
+      x: L
+      ['(', '[', '{']: {write: x, R: search_left}
+    
+    reject:
+    
+    accept:
+    
+    
+    
+positions:
+  start: {x: 324.92, y: 299.97, fixed: false}
+  search_left: {x: 399.62, y: 20}
+  search_right: {x: 526.99, y: 208.05, fixed: false}
+  round: {x: 464.43, y: 153.04, fixed: false}
+  square: {x: 353.97, y: 186.01, fixed: false}
+  curly: {x: 426.94, y: 264.75, fixed: false}
+  erase: {x: 541.54, y: 310.84}
+  reject: {x: 458.48, y: 380.99}
+  accept: {x: 655.96, y: 398.87}
